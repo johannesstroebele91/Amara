@@ -1,8 +1,14 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>{{title}}</span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <span>{{ title }}</span>
+    <button aria-label="Example icon-button with heart icon" class="example-icon favorite-icon" mat-icon-button>
       <mat-icon>favorite</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
+<div style="max-width: 900px; margin: 30px auto;">
+  <h1>Tasks</h1>
+  <div *ngFor="let task of tasks">
+    <mat-checkbox [ngModel]="task.checked" class="example-margin">{{ task.name }}</mat-checkbox>
+  </div>
+</div>
