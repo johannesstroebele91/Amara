@@ -7,31 +7,9 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <div style="max-width: 600px; margin: 30px auto;">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Timer</mat-card-title>
-      <mat-card-subtitle style="font-size: 90px; margin: 60px 0;">{{ timer }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p style="margin: 0; font-weight: 500; color: #2ecc71">EARNED
-        POINTS: {{ points }}</p>
-      <p style="color: #5d5d5d">Can be earned for each minute worked</p>
-    </mat-card-content>
-    <mat-card-footer>
-      <mat-card-actions>
-        <button (click)="startTimer()" [disabled]="isTimerRunning" mat-button>START</button>
-        <button (click)="pauseTimer()" [disabled]="!isTimerRunning" mat-button>PAUSE</button>
-        <button (click)="resetTimer()" mat-button>RESET</button>
-      </mat-card-actions>
-    </mat-card-footer>
-  </mat-card>
+  <app-login></app-login>
   <br>
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Tasks</mat-card-title>
-    </mat-card-header>
-    <mat-card-content *ngFor="let task of tasks">
-      <mat-checkbox [ngModel]="task.checked" class="example-margin">{{ task.name }}</mat-checkbox>
-    </mat-card-content>
-  </mat-card>
+  <app-timer></app-timer>
+  <br>
+  <app-task></app-task>
 </div>
