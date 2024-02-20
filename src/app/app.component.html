@@ -6,9 +6,25 @@
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
-<div style="max-width: 900px; margin: 30px auto;">
-  <h1>Tasks</h1>
-  <div *ngFor="let task of tasks">
-    <mat-checkbox [ngModel]="task.checked" class="example-margin">{{ task.name }}</mat-checkbox>
-  </div>
+<div style="max-width: 600px; margin: 30px auto;">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Timer</mat-card-title>
+      <mat-card-subtitle>{{ timer }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <button (click)="startTimer()" [disabled]="isTimerRunning" mat-button>START</button>
+      <button (click)="pauseTimer()" [disabled]="!isTimerRunning" mat-button>PAUSE</button>
+      <button (click)="resetTimer()" mat-button>RESET</button>
+    </mat-card-actions>
+  </mat-card>
+  <br>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Tasks</mat-card-title>
+    </mat-card-header>
+    <mat-card-content *ngFor="let task of tasks">
+      <mat-checkbox [ngModel]="task.checked" class="example-margin">{{ task.name }}</mat-checkbox>
+    </mat-card-content>
+  </mat-card>
 </div>
