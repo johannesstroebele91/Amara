@@ -35,6 +35,8 @@ export class AppComponent implements OnInit, OnDestroy {
   startTime: number = 0;
   elapsedTime: number = 0;
 
+  points: number = 0;
+
   ngOnInit() {
     this.resetTimer();
   }
@@ -75,6 +77,10 @@ export class AppComponent implements OnInit, OnDestroy {
     const minutes = Math.floor((this.elapsedTime % 3600000) / 60000);
     const seconds = Math.floor((this.elapsedTime % 60000) / 1000);
     this.timer = `${this.formatTime(hours)}:${this.formatTime(minutes)}:${this.formatTime(seconds)}`;
+
+    if (seconds === 0) {
+      this.points += 1;
+    }
   }
 
   formatTime(time: number): string {

@@ -10,13 +10,20 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>Timer</mat-card-title>
-      <mat-card-subtitle>{{ timer }}</mat-card-subtitle>
+      <mat-card-subtitle style="font-size: 90px; margin: 60px 0;">{{ timer }}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-actions>
-      <button (click)="startTimer()" [disabled]="isTimerRunning" mat-button>START</button>
-      <button (click)="pauseTimer()" [disabled]="!isTimerRunning" mat-button>PAUSE</button>
-      <button (click)="resetTimer()" mat-button>RESET</button>
-    </mat-card-actions>
+    <mat-card-content>
+      <p style="margin: 0; font-weight: 500; color: #2ecc71">EARNED
+        POINTS: {{ points }}</p>
+      <p style="color: #5d5d5d">Can be earned for each minute worked</p>
+    </mat-card-content>
+    <mat-card-footer>
+      <mat-card-actions>
+        <button (click)="startTimer()" [disabled]="isTimerRunning" mat-button>START</button>
+        <button (click)="pauseTimer()" [disabled]="!isTimerRunning" mat-button>PAUSE</button>
+        <button (click)="resetTimer()" mat-button>RESET</button>
+      </mat-card-actions>
+    </mat-card-footer>
   </mat-card>
   <br>
   <mat-card>
