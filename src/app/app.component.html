@@ -1,15 +1,11 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>{{ title }}</span>
+    <a routerLink="/" style="color: white; text-underline: none;">{{ title }}</a>
     <button aria-label="Example icon-button with heart icon" class="example-icon favorite-icon" mat-icon-button>
       <mat-icon>favorite</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
 <div style="max-width: 600px; margin: 30px auto;">
-  <app-login></app-login>
-  <br>
-  <app-timer></app-timer>
-  <br>
-  <app-task></app-task>
+  <router-outlet></router-outlet>
 </div>
