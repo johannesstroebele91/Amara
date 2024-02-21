@@ -34,6 +34,5 @@ export class AuthService {
     // Clear the token on logout
     this.token = null;
   }
-
 }
 

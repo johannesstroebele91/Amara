@@ -39,9 +39,13 @@ import {interval, map, Subscription} from "rxjs";
       </mat-card-content>
       <mat-card-footer>
         <mat-card-actions>
-          <button (click)="startTimer()" [disabled]="isTimerRunning" mat-button>START</button>
-          <button (click)="pauseTimer()" [disabled]="!isTimerRunning" mat-button>PAUSE</button>
-          <button (click)="resetTimer()" mat-button>RESET</button>
+          <button (click)="startTimer()" [disabled]="isTimerRunning" mat-raised-button color="primary"
+                  style="margin-right: 12px">START
+          </button>
+          <button (click)="pauseTimer()" [disabled]="!isTimerRunning" mat-raised-button color="accent"
+                  style="margin-right: 12px">PAUSE
+          </button>
+          <button (click)="resetTimer()" mat-raised-button color="warn">RESET</button>
         </mat-card-actions>
       </mat-card-footer>
     </mat-card>`
