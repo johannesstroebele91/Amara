@@ -10,7 +10,15 @@ import {
   MatCardSubtitle,
   MatCardTitle
 } from "@angular/material/card";
-import {interval, map, Subscription} from "rxjs";
+import {interval, Subscription} from "rxjs";
+import dayjs from 'dayjs';
+import 'dayjs/plugin/duration';
+import 'dayjs/plugin/relativeTime';
+import duration from 'dayjs/plugin/duration';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
 
 @Component({
   standalone: true,
@@ -54,9 +62,7 @@ export class TimerComponent implements OnDestroy, OnInit {
   timer: string = '00:00:00';
   isTimerRunning: boolean = false;
   timerSubscription: Subscription | undefined;
-  startTime: number = 0;
-  elapsedTime: number = 0;
-
+  startTime: dayjs.Dayjs | null = null;
   points: number = 0;
 
   ngOnInit() {
@@ -65,14 +71,11 @@ export class TimerComponent implements OnDestroy, OnInit {
 
   startTimer() {
     if (!this.isTimerRunning) {
-      this.startTime = Date.now() - this.elapsedTime;
+      this.startTime = this.startTime ? this.startTime : dayjs();
       this.timerSubscription = interval(1000)
-        .pipe(
-          map(() => {
-            this.updateTimer();
-          })
-        )
-        .subscribe();
+        .subscribe(() => {
+          this.updateTimer();
+        });
       this.isTimerRunning = true;
     }
   }
@@ -89,24 +92,21 @@ export class TimerComponent implements OnDestroy, OnInit {
       this.timerSubscription.unsubscribe();
     }
     this.isTimerRunning = false;
-    this.elapsedTime = 0;
     this.timer = '00:00:00';
+    this.startTime = null;
+    this.points = 0;
   }
 
   updateTimer() {
-    this.elapsedTime = Date.now() - this.startTime;
-    const hours = Math.floor(this.elapsedTime / 3600000);
-    const minutes = Math.floor((this.elapsedTime % 3600000) / 60000);
-    const seconds = Math.floor((this.elapsedTime % 60000) / 1000);
-    this.timer = `${this.formatTime(hours)}:${this.formatTime(minutes)}:${this.formatTime(seconds)}`;
+    if (this.startTime) {
+      const now = dayjs();
+      const duration = dayjs.duration(now.diff(this.startTime));
+      this.timer = duration.format('HH:mm:ss');
 
-    if (seconds === 0) {
-      this.points += 1;
+      if (duration.seconds() === 0 && duration.minutes() > 0) {
+        this.points += 1;
+      }
     }
-  }
-
-  formatTime(time: number): string {
-    return time.toString().padStart(2, '0');
   }
 
   ngOnDestroy() {
@@ -114,5 +114,4 @@ export class TimerComponent implements OnDestroy, OnInit {
       this.timerSubscription.unsubscribe();
     }
   }
-
 }
