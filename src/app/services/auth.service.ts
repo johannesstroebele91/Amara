@@ -17,7 +17,7 @@ export class AuthService {
     });
   }
 
-  login(email: string, password: string): Promise<boolean> {
+  login(email: string | null, password: string | null): Promise<boolean> {
     // Simulate an HTTP request to a backend for authentication
     return new Promise((resolve, reject) => {
       setTimeout(() => {
