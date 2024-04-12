@@ -18,7 +18,6 @@ export class AuthUser {
   }
 }
 
-
 export interface AuthResponseData {
   kind: string;
   idToken: string;
@@ -27,4 +26,16 @@ export interface AuthResponseData {
   expiresIn: string;
   localId: string;
   registered?: boolean;
+}
+
+export interface UsersWithTasks {
+  id: string;
+  name: string;
+  tasks: Task[]
+}
+
+export interface Task {
+  name: string;
+  checked: boolean;
+  editing?: boolean;
 }

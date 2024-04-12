@@ -18,6 +18,8 @@ import {HttpClient} from "@angular/common/http";
 import {AuthService} from "../services/auth.service";
 import {ERROR_MESSAGE} from "../shared/constants";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {AuthResponseData} from "../shared/models";
+import {UserTasksService} from "../services/user-tasks.service";
 
 @Component({
   selector: 'app-register',
@@ -163,6 +165,7 @@ export class RegistrationComponent {
   http = inject(HttpClient);
   router = inject(Router);
   authService = inject(AuthService);
+  userTasksService = inject(UserTasksService);
 
   hidePasswordInput = true;
   isLoading = true;
@@ -207,8 +210,18 @@ export class RegistrationComponent {
             this.requestErrorMessage = error;
             console.error('Error on sign in:', error);
           },
-          complete: () => {
-            this.router.navigate(['/home']);
+          next: (response: AuthResponseData) => {
+            this.userTasksService.createUserWithDefaultTasks(response.localId, name).subscribe({
+              next: () => {
+                console.log("Create a user on FireBase was successful")
+              },
+              error: (error) => {
+                this.requestErrorMessage = error;
+                console.error('Error on sign in:', error);
+              }
+            })
+            console.log(response);
+            this.router.navigate([`/home/${response.localId}`]);
             this.isLoading = false;
           }
         })

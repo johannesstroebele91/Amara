@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {NgForOf, NgIf} from "@angular/common";
@@ -10,12 +10,8 @@ import {MatIcon} from "@angular/material/icon";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatLineModule} from "@angular/material/core";
+import {Task, UsersWithTasks} from "../shared/models";
 
-interface Task {
-  name: string;
-  checked: boolean;
-  editing?: boolean;
-}
 
 @Component({
   selector: 'app-task',
@@ -48,7 +44,7 @@ interface Task {
           </mat-form-field>
         </form>
 
-        <mat-list *ngFor="let task of tasks">
+        <mat-list *ngFor="let task of userTasks?.tasks">
           <mat-list-item *ngIf="!task.editing">
             <mat-checkbox [ngModel]="task.checked" (change)="toggleChecked(task, $event)">
             </mat-checkbox>
@@ -100,29 +96,43 @@ interface Task {
   ],
   standalone: true
 })
-export class TaskComponent {
-  tasks: Task[] = [
-    {name: 'Add your example task above', checked: false},
-    {name: 'Click on the checkbox when you finished the task', checked: false},
-  ];
+export class TaskComponent implements OnInit {
+  userTasks: UsersWithTasks | undefined;
 
   taskForm = new FormGroup({
     newTask: new FormControl('')
   });
 
+  ngOnInit(): void {
+    /* this.taskService
+       .login({
+         email: this.loginForm.value.email,
+         password: this.loginForm.value.password,
+       })
+       .subscribe({
+         next: (response: AuthResponseData) => {
+           if (response.registered) this.router.navigate([`/home/:${id}`]);
+         },
+         error: (error) => {
+           console.log('Error on log in', error)
+           this.requestErrorMessage = 'The combination of the email and password that you have entered, does not exists';
+         },
+       });*/
+  }
+
   addTask() {
     const newTaskName = this.taskForm.value.newTask;
     if (newTaskName) {
-      this.tasks.unshift({name: newTaskName, checked: false, editing: false}); // Use unshift to add at the beginning
+      this.userTasks?.tasks.unshift({name: newTaskName, checked: false, editing: false}); // Use unshift to add at the beginning
       this.taskForm.reset();
     }
   }
 
   toggleChecked(task: Task, event: MatCheckboxChange) {
     if (event.checked) {
-      const index = this.tasks.indexOf(task);
-      if (index > -1) {
-        this.tasks.splice(index, 1);
+      const index = this.userTasks?.tasks.indexOf(task);
+      if (index && index > -1) {
+        this.userTasks?.tasks.splice(index, 1);
       }
     }
   }
@@ -132,9 +142,10 @@ export class TaskComponent {
   }
 
   saveTask(task: Task) {
-    const index = this.tasks.indexOf(task);
+    const tasks = this.userTasks?.tasks ?? []; // Set tasks to empty array if userTasks is null/undefined
+    const index = tasks.indexOf(task);
     if (index > -1) {
-      this.tasks[index].name = task.name;
+      tasks[index].name = task.name;
     }
     task.editing = false;
   }
