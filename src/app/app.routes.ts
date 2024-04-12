@@ -7,6 +7,6 @@ import {RegistrationComponent} from "./components/registration.component";
 export const routes: Routes = [
   {path: '', component: LoginComponent, pathMatch: 'full'},
   {path: 'register', component: RegistrationComponent},
-  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'home/:id', component: HomeComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo: '/home'},
 ];
