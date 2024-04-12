@@ -34,7 +34,7 @@ dayjs.extend(duration);
   ],
   styleUrl: 'timer.component.scss',
   template: `
-    <mat-card style="max-width: 500px; margin-bottom: 30px; min-height: 330px;">
+    <mat-card style="width: 480px; margin-bottom: 30px; min-height: 330px;">
       <mat-card-header style="margin: 0 auto">
         <mat-card-title style="font-size: 40px; margin-top: 30px;">Timer</mat-card-title>
       </mat-card-header>
