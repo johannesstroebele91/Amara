@@ -8,7 +8,6 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatButton} from "@angular/material/button";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {TimerComponent} from "./timer/timer.component";
-import {ChallengesComponent} from "./challenges/challenges.component";
 import {TaskComponent} from "./task.component";
 
 @Component({
@@ -16,13 +15,10 @@ import {TaskComponent} from "./task.component";
   standalone: true,
   template: `
     <mat-card style="max-width: 700px; margin: 50px auto;">
-      <app-task></app-task>
-    </mat-card>
-    <mat-card style="max-width: 700px; margin: 50px auto;">
       <app-timer></app-timer>
     </mat-card>
     <mat-card style="max-width: 700px; margin: 50px auto;">
-      <app-challenges></app-challenges>
+      <app-task></app-task>
     </mat-card>
 
     <mat-card style="max-width: 300px; margin: 100px auto">
@@ -56,7 +52,6 @@ import {TaskComponent} from "./task.component";
     MatButton,
     MatProgressBar,
     TimerComponent,
-    ChallengesComponent,
     TaskComponent,
   ],
 })
