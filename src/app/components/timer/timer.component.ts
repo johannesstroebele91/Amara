@@ -34,11 +34,11 @@ dayjs.extend(duration);
   ],
   styleUrl: 'timer.component.scss',
   template: `
-    <mat-card>
+    <mat-card style="max-width: 500px; margin-bottom: 30px; min-height: 330px;">
       <mat-card-header style="margin: 0 auto">
         <mat-card-title style="font-size: 40px; margin-top: 30px;">Timer</mat-card-title>
       </mat-card-header>
-      <mat-card-content style="text-align: center;">
+      <mat-card-content style="text-align: center; ">
         <ng-container *ngIf="!isTimerRunning; else runningTimer">
           <input [(ngModel)]="userTime"
                  class="timer-style"

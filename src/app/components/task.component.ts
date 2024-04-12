@@ -19,18 +19,18 @@ interface Task {
 @Component({
   selector: 'app-task',
   template: `
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>My Tasks</mat-card-title>
+    <mat-card style="max-width: 700px; min-height: 460px;">
+      <mat-card-header style="margin: 0 auto">
+        <mat-card-title style="font-size: 40px; margin-top: 30px;">My Tasks</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content>
-        <form [formGroup]="taskForm" class="add-task-form">
+      <mat-card-content style="min-width: 500px;">
+        <form [formGroup]="taskForm">
           <button (click)="addTask()" mat-mini-fab color="primary" aria-label="Add a task"
                   style="margin: 40px 10px 0 17px">
             <mat-icon>add</mat-icon>
           </button>
-          <mat-form-field appearance="fill" style="width: 80%">
+          <mat-form-field appearance="fill" style="width: 75%">
             <mat-label>New Task</mat-label>
             <input matInput formControlName="newTask" placeholder="Enter new task">
           </mat-form-field>
@@ -39,7 +39,7 @@ interface Task {
         <mat-list *ngFor="let task of tasks">
           <mat-list-item>
             <mat-checkbox [ngModel]="task.checked" (change)="toggleChecked(task, $event)">
-              <mat-label>{{ task.name }}</mat-label>
+              <mat-label style="margin-left: 8px">{{ task.name }}</mat-label>
             </mat-checkbox>
           </mat-list-item>
         </mat-list>
@@ -48,7 +48,8 @@ interface Task {
 
   `,
   imports: [
-    MatFormFieldModule, MatInputModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatCard,
     MatCardContent,
     MatCardHeader,
@@ -64,20 +65,16 @@ interface Task {
     MatListItem,
     MatList,
     MatIconButton,
-    MatDividerModule, FormsModule, MatMiniFabButton
+    MatDividerModule,
+    FormsModule,
+    MatMiniFabButton
   ],
   standalone: true
 })
 export class TaskComponent {
   tasks: Task[] = [
-    {name: 'Setup project with Angular', checked: false},
-    {name: 'Add Material UI and icons', checked: false},
-    {name: 'Publish project on Github', checked: false},
-    {name: 'Setup toolbar and title', checked: false},
-    {name: 'Setup basic tasks and add description', checked: false},
-    {name: 'Implement basic layout', checked: false},
-    {name: 'Brainstorm next steps', checked: false},
-    {name: 'Start using Angular typography', checked: false},
+    {name: 'Add you example task above', checked: false},
+    {name: 'Click on the checkbox when you finished the task', checked: false},
   ];
 
   taskForm = new FormGroup({
@@ -87,7 +84,7 @@ export class TaskComponent {
   addTask() {
     const newTaskName = this.taskForm.value.newTask;
     if (newTaskName) {
-      this.tasks.push({name: newTaskName, checked: false});
+      this.tasks.unshift({name: newTaskName, checked: false}); // Use unshift to add at the beginning
       this.taskForm.reset();
     }
   }
