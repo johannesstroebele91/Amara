@@ -29,9 +29,6 @@ interface Task {
             <mat-checkbox [ngModel]="task.checked" (change)="toggleChecked(task, $event)">
               <mat-label>{{ task.name }}</mat-label>
             </mat-checkbox>
-            <button mat-icon-button (click)="deleteTask(task)">
-              <mat-icon>delete</mat-icon>
-            </button>
           </mat-list-item>
         </mat-list>
 
@@ -68,12 +65,12 @@ interface Task {
 })
 export class TaskComponent {
   tasks: Task[] = [
-    {name: 'Setup project with Angular', checked: true},
-    {name: 'Add Material UI and icons', checked: true},
-    {name: 'Publish project on Github', checked: true},
-    {name: 'Setup toolbar and title', checked: true},
-    {name: 'Setup basic tasks and add description', checked: true},
-    {name: 'Implement basic layout', checked: true},
+    {name: 'Setup project with Angular', checked: false}, // All tasks added with checked: false
+    {name: 'Add Material UI and icons', checked: false},
+    {name: 'Publish project on Github', checked: false},
+    {name: 'Setup toolbar and title', checked: false},
+    {name: 'Setup basic tasks and add description', checked: false},
+    {name: 'Implement basic layout', checked: false},
     {name: 'Brainstorm next steps', checked: false},
     {name: 'Start using Angular typography', checked: false},
   ];
@@ -85,19 +82,18 @@ export class TaskComponent {
   addTask() {
     const newTaskName = this.taskForm.value.newTask;
     if (newTaskName) {
-      this.tasks.push({name: newTaskName, checked: false});
-      this.taskForm.reset(); // Clear the new task input after adding
-    }
-  }
-
-  deleteTask(task: Task) {
-    const index = this.tasks.indexOf(task);
-    if (index > -1) {
-      this.tasks.splice(index, 1);
+      this.tasks.push({name: newTaskName, checked: false}); // New tasks added with checked: false
+      this.taskForm.reset();
     }
   }
 
   toggleChecked(task: Task, event: MatCheckboxChange) {
-    task.checked = event.checked;
+    // Directly delete the task on checkbox selection (checked)
+    if (event.checked) {
+      const index = this.tasks.indexOf(task);
+      if (index > -1) {
+        this.tasks.splice(index, 1);
+      }
+    }
   }
 }
