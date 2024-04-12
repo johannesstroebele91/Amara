@@ -1,27 +1,24 @@
-# Amara
+# amara: Pomodoro Productivity Tracker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
+amara is a cloud-based application designed to boost your productivity using the Pomodoro Technique. It allows you to set focused 25-minute work intervals, helping you achieve more throughout your day. This project utilizes TypeScript, Angular, Angular Material, Firebase Authentication, and Vercel for a smooth, performant, and cross-platform user experience.
 
-## Development server
+# Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- 25-Minute Pomodoro Timer: Set and track your work intervals with a clean and intuitive interface.
+- Start/Stop and Reset Buttons: Easily control your timer and start fresh whenever needed.
+- Login and Registration: Securely register and log in using your email and password.
 
-## Code scaffolding
+# Technology
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Mobile-First Design: for seamless use across various platforms.
+- Frontend: built with Angular and Angular Material for a robust and up-to-date development foundation.
+- Routing with Authentication Guards: Restricts access based on user login status.
+- Authentication: Secure user access through Firebase's built-in authentication features.
+- Data Storing: Retrieves and stores data efficiently using Firebase's services.
+- Vercel Deployment: Leverages Vercel's serverless platform for scalability and reliability.
 
-## Build
+# Development and Deployment
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Development Server: Run ng serve for a local development server accessible at http://localhost:4040/. Changes to source files trigger automatic reloading.
+- Build: Run ng build to create production-ready build artifacts stored in the dist/ directory. Use the --prod flag for optimized production builds.
+- Production Deployment: After building, run node server.js to start the production server. Deployment can be automated using Vercel's continuous integration features.

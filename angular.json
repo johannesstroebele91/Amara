@@ -3,11 +3,35 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Amara": {
+    "amara": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "inlineTemplate": true,
+          "inlineStyle": true,
+          "style": "scss",
+          "skipTests": true
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:resolver": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
         }
       },
       "root": "",
@@ -63,10 +87,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Amara:build:production"
+              "buildTarget": "amara:build:production"
             },
             "development": {
-              "buildTarget": "Amara:build:development"
+              "buildTarget": "amara:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,7 +98,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "Amara:build"
+            "buildTarget": "amara:build"
           }
         },
         "test": {
