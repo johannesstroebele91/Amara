@@ -9,7 +9,8 @@ import {MatButton} from "@angular/material/button";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {TimerComponent} from "./timer/timer.component";
 import {TaskComponent} from "./task.component";
-import {UsersWithTasks} from "../shared/models";
+import {UserWithTasks} from "../shared/models";
+import {UsersTasksService} from "../services/users-tasks.service";
 
 @Component({
   selector: 'app-home',
@@ -35,20 +36,25 @@ import {UsersWithTasks} from "../shared/models";
     <div
       style="display: flex; justify-content: space-around; flex-wrap: wrap">
       <app-timer></app-timer>
-      <app-task></app-task>
+      <app-task [userWithTasks]="userWithTasks"></app-task>
     </div>
   `,
 })
 export class HomeComponent implements OnInit {
-  userTasks: UsersWithTasks | undefined;
+  userWithTasks: UserWithTasks | undefined;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private usersTasksService: UsersTasksService) {
   }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['id'])
-    /* this.userTasks = {
-       userId: this.route.snapshot.params['id'],
-     }*/
+    this.usersTasksService.getUser(this.route.snapshot.params['id']).subscribe({
+      next: (response: any) => {
+        this.userWithTasks = response;
+        console.log("Getting the user was successful");
+      },
+      error: (error: any) => {
+        console.error('Error on getting user:', error);
+      }
+    })
   }
 }

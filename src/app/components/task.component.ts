@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {NgForOf, NgIf} from "@angular/common";
@@ -10,7 +10,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatLineModule} from "@angular/material/core";
-import {Task, UsersWithTasks} from "../shared/models";
+import {Task, UserWithTasks} from "../shared/models";
 
 
 @Component({
@@ -44,7 +44,7 @@ import {Task, UsersWithTasks} from "../shared/models";
           </mat-form-field>
         </form>
 
-        <mat-list *ngFor="let task of userTasks?.tasks">
+        <mat-list *ngFor="let task of userWithTasks?.tasks">
           <mat-list-item *ngIf="!task.editing">
             <mat-checkbox [ngModel]="task.checked" (change)="toggleChecked(task, $event)">
             </mat-checkbox>
@@ -96,43 +96,26 @@ import {Task, UsersWithTasks} from "../shared/models";
   ],
   standalone: true
 })
-export class TaskComponent implements OnInit {
-  userTasks: UsersWithTasks | undefined;
+export class TaskComponent {
+  @Input() userWithTasks!: UserWithTasks | undefined;
 
   taskForm = new FormGroup({
     newTask: new FormControl('')
   });
 
-  ngOnInit(): void {
-    /* this.taskService
-       .login({
-         email: this.loginForm.value.email,
-         password: this.loginForm.value.password,
-       })
-       .subscribe({
-         next: (response: AuthResponseData) => {
-           if (response.registered) this.router.navigate([`/home/:${id}`]);
-         },
-         error: (error) => {
-           console.log('Error on log in', error)
-           this.requestErrorMessage = 'The combination of the email and password that you have entered, does not exists';
-         },
-       });*/
-  }
-
   addTask() {
     const newTaskName = this.taskForm.value.newTask;
     if (newTaskName) {
-      this.userTasks?.tasks.unshift({name: newTaskName, checked: false, editing: false}); // Use unshift to add at the beginning
+      this.userWithTasks?.tasks.unshift({name: newTaskName, checked: false, editing: false}); // Use unshift to add at the beginning
       this.taskForm.reset();
     }
   }
 
   toggleChecked(task: Task, event: MatCheckboxChange) {
     if (event.checked) {
-      const index = this.userTasks?.tasks.indexOf(task);
+      const index = this.userWithTasks?.tasks.indexOf(task);
       if (index && index > -1) {
-        this.userTasks?.tasks.splice(index, 1);
+        this.userWithTasks?.tasks.splice(index, 1);
       }
     }
   }
@@ -142,7 +125,7 @@ export class TaskComponent implements OnInit {
   }
 
   saveTask(task: Task) {
-    const tasks = this.userTasks?.tasks ?? []; // Set tasks to empty array if userTasks is null/undefined
+    const tasks = this.userWithTasks?.tasks ?? []; // Set tasks to empty array if userTasks is null/undefined
     const index = tasks.indexOf(task);
     if (index > -1) {
       tasks[index].name = task.name;
