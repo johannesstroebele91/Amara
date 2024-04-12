@@ -1,4 +1,4 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {NgForOf, NgIf} from "@angular/common";
@@ -11,6 +11,8 @@ import {MatList, MatListItem} from "@angular/material/list";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatLineModule} from "@angular/material/core";
 import {Task, UserWithTasks} from "../shared/models";
+import {UsersTasksService} from "../services/users-tasks.service";
+import {BehaviorSubject, Subscription} from "rxjs";
 
 
 @Component({
@@ -96,26 +98,49 @@ import {Task, UserWithTasks} from "../shared/models";
   ],
   standalone: true
 })
-export class TaskComponent {
-  @Input() userWithTasks!: UserWithTasks | undefined;
-
+export class TaskComponent implements OnInit, OnDestroy {
+  @Input() userWithTasks!: UserWithTasks;
   taskForm = new FormGroup({
     newTask: new FormControl('')
   });
 
+  private userWithTasksSubject: BehaviorSubject<UserWithTasks>;
+  private userWithTasksSubscription: Subscription | undefined;
+
+  constructor(private usersTasksService: UsersTasksService) {
+    this.userWithTasksSubject = new BehaviorSubject<UserWithTasks>(this.userWithTasks);
+  }
+
+  ngOnInit() {
+    this.userWithTasksSubject.next(this.userWithTasks); // Initialize with the input data
+
+    // Subscribe to changes in userWithTasks
+    this.userWithTasksSubscription = this.userWithTasksSubject.subscribe(userWithTasks => {
+      if (userWithTasks) {
+        this.userWithTasks = userWithTasks;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.userWithTasksSubscription?.unsubscribe();
+  }
+
   addTask() {
     const newTaskName = this.taskForm.value.newTask;
     if (newTaskName) {
-      this.userWithTasks?.tasks.unshift({name: newTaskName, checked: false, editing: false}); // Use unshift to add at the beginning
+      this.userWithTasks.tasks.unshift({name: newTaskName, checked: false, editing: false});
+      this.updateUserWithTasks();
       this.taskForm.reset();
     }
   }
 
   toggleChecked(task: Task, event: MatCheckboxChange) {
     if (event.checked) {
-      const index = this.userWithTasks?.tasks.indexOf(task);
-      if (index && index > -1) {
-        this.userWithTasks?.tasks.splice(index, 1);
+      const index = this.userWithTasks.tasks.indexOf(task);
+      if (index > -1) {
+        this.userWithTasks.tasks.splice(index, 1);
+        this.updateUserWithTasks();
       }
     }
   }
@@ -125,15 +150,23 @@ export class TaskComponent {
   }
 
   saveTask(task: Task) {
-    const tasks = this.userWithTasks?.tasks ?? []; // Set tasks to empty array if userTasks is null/undefined
-    const index = tasks.indexOf(task);
-    if (index > -1) {
-      tasks[index].name = task.name;
-    }
     task.editing = false;
+    this.updateUserWithTasks();
   }
 
   cancelEdit(task: Task) {
     task.editing = false;
+  }
+
+  updateUserWithTasks() {
+    this.userWithTasksSubject.next(this.userWithTasks); // Emit updated userWithTasks
+    this.usersTasksService.updateUser(this.userWithTasks).subscribe({
+      next: (response: any) => {
+        console.log("User tasks updated successfully", response);
+      },
+      error: (error: any) => {
+        console.error('Error updating user tasks:', error);
+      }
+    });
   }
 }

@@ -40,46 +40,48 @@ export class UsersTasksService {
     return this.http.get<ResponseData>(`${DOMAIN}${USERS_WITH_TASKS_PATH}/${id}.json`)
   }
 
-  /*fetchUsers(): Observable<ResponseData[]> {
-    return this.authService.user.pipe(
-      take(1),
-      exhaustMap(() => {
-        return this.http.get<ResponseData>(DOMAIN + USERS_WITH_TASKS_PATH + '.json')
-      }),
-      map((responseData: ResponseData) => {
-        const users: ResponseData[] = [];
-        for (const key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            const user = responseData[key];
-            const workoutData = responseData[key].workoutData;
-            users.push({
-              ...user,
-              id: key,
-              workoutData: {
-                goalPerWeek: workoutData.goalPerWeek,
-                completedWorkouts: workoutData.completedWorkouts?.length === 0 ? [] : workoutData.completedWorkouts?.map((dateString) => {
-                  return new Date(dateString)
-                })
-              }
-            });
-          }
-        }
-        return users;
-      })
-    )
+
+  updateUser(userWithTasks: UserWithTasks): Observable<any> {
+    return this.http.put(`${DOMAIN}${USERS_WITH_TASKS_PATH}/${userWithTasks.id}.json`, userWithTasks);
   }
 
-  updateUserGoalPerWeek(userId: string, goalPerWeek: number): Observable<any> {
-    const userData = {workoutData: {goalPerWeek}};
-    return this.http.patch(`${DOMAIN}${USERS_WITH_TASKS_PATH}/${userId}.json`, userData);
-  }
 
-  addWorkout(user: ResponseData, newWorkout: Date): Observable<any> {
-    const completedWorkouts = user.workoutData.completedWorkouts || [];
-    const userData: ResponseData = {
-      ...user,
-      workoutData: {goalPerWeek: user.workoutData.goalPerWeek, completedWorkouts: [...completedWorkouts, newWorkout]}
-    };
-    return this.http.patch(`${DOMAIN}${USERS_WITH_TASKS_PATH}/${user.id}.json`, userData);
-  }*/
+  /* fetchUsers(): Observable<ResponseData[]> {
+     return this.authService.user.pipe(
+       take(1),
+       exhaustMap(() => {
+         return this.http.get<ResponseData>(DOMAIN + USERS_WITH_TASKS_PATH + '.json')
+       }),
+       map((responseData: ResponseData) => {
+         const users: ResponseData[] = [];
+         for (const key in responseData) {
+           if (responseData.hasOwnProperty(key)) {
+             const user = responseData[key];
+             const workoutData = responseData[key].workoutData;
+             users.push({
+               ...user,
+               id: key,
+               workoutData: {
+                 goalPerWeek: workoutData.goalPerWeek,
+                 completedWorkouts: workoutData.completedWorkouts?.length === 0 ? [] : workoutData.completedWorkouts?.map((dateString) => {
+                   return new Date(dateString)
+                 })
+               }
+             });
+           }
+         }
+         return users;
+       })
+     )
+   }
+
+
+   addWorkout(user: ResponseData, newWorkout: Date): Observable<any> {
+     const completedWorkouts = user.workoutData.completedWorkouts || [];
+     const userData: ResponseData = {
+       ...user,
+       workoutData: {goalPerWeek: user.workoutData.goalPerWeek, completedWorkouts: [...completedWorkouts, newWorkout]}
+     };
+     return this.http.patch(`${DOMAIN}${USERS_WITH_TASKS_PATH}/${user.id}.json`, userData);
+   }*/
 }

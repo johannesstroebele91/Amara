@@ -41,7 +41,7 @@ import {UsersTasksService} from "../services/users-tasks.service";
   `,
 })
 export class HomeComponent implements OnInit {
-  userWithTasks: UserWithTasks | undefined;
+  userWithTasks!: UserWithTasks;
 
   constructor(private route: ActivatedRoute, private usersTasksService: UsersTasksService) {
   }
