@@ -149,7 +149,7 @@ export class LoginComponent implements OnDestroy {
         })
         .subscribe({
           next: (response: AuthResponseData) => {
-            if (response.registered) this.router.navigate(['/home']);
+            if (response.registered) this.router.navigate([`/home/${response.localId}`]);
           },
           error: (error) => {
             console.log('Error on log in', error)

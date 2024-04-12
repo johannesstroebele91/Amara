@@ -28,7 +28,7 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
-export interface UsersWithTasks {
+export interface UserWithTasks {
   id: string;
   name: string;
   tasks: Task[]

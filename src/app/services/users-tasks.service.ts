@@ -1,11 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from "./auth.service";
-import {Task, UsersWithTasks} from "../shared/models";
+import {Task, UserWithTasks} from "../shared/models";
 import {Observable} from "rxjs";
 
 interface ResponseData {
-  [key: string]: UsersWithTasks;
+  [key: string]: UserWithTasks;
 }
 
 const DOMAIN =
@@ -15,7 +15,7 @@ const USERS_WITH_TASKS_PATH = '/usersWithTasks';
 @Injectable({
   providedIn: 'root', // This makes AuthService available throughout the application
 })
-export class UserTasksService {
+export class UsersTasksService {
   authService = inject(AuthService);
   http = inject(HttpClient);
 
@@ -25,7 +25,7 @@ export class UserTasksService {
       {name: 'Click on the checkbox to mark a task as complete', checked: false},
     ];
 
-    const usersWithTasks: UsersWithTasks = {
+    const userWithTasks: UserWithTasks = {
       id: id,
       name: name,
       tasks: tasks,
@@ -33,7 +33,11 @@ export class UserTasksService {
 
     return this.http.put<{
       name: string;
-    }>(`${DOMAIN}${USERS_WITH_TASKS_PATH}/${id}.json`, usersWithTasks);
+    }>(`${DOMAIN}${USERS_WITH_TASKS_PATH}/${id}.json`, userWithTasks);
+  }
+
+  getUser(id: string): Observable<ResponseData> {
+    return this.http.get<ResponseData>(`${DOMAIN}${USERS_WITH_TASKS_PATH}/${id}.json`)
   }
 
   /*fetchUsers(): Observable<ResponseData[]> {
@@ -63,23 +67,6 @@ export class UserTasksService {
         return users;
       })
     )
-  }
-
-  fetchUser(id: string): Observable<ResponseData> {
-    return this.http.get<ResponseData>(`${DOMAIN}${USERS_WITH_TASKS_PATH}/${id}.json`)
-      .pipe(
-        map((user: ResponseData) => {
-          return {
-            ...user,
-            workoutData: {
-              goalPerWeek: user.workoutData.goalPerWeek,
-              completedWorkouts: user.workoutData.completedWorkouts?.length === 0 ? [] : user.workoutData.completedWorkouts?.map((dateString) => {
-                return new Date(dateString)
-              })
-            }
-          };
-        })
-      );
   }
 
   updateUserGoalPerWeek(userId: string, goalPerWeek: number): Observable<any> {
