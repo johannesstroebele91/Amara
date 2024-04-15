@@ -129,7 +129,7 @@ export class TaskComponent implements OnInit, OnDestroy {
   addTask() {
     const newTaskName = this.taskForm.value.newTask;
     if (newTaskName) {
-      this.userWithTasks.tasks.unshift({name: newTaskName, checked: false, editing: false});
+      this.userWithTasks?.tasks?.unshift({name: newTaskName, checked: false, editing: false});
       this.updateUserWithTasks();
       this.taskForm.reset();
     }
