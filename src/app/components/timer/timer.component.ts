@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {
@@ -83,6 +83,7 @@ export class TimerComponent implements OnDestroy, OnInit {
   startTime: dayjs.Dayjs | null = null;
   userTime: string = '00:00:00';
   @Input() pointsReached!: number;
+  @Output() pointsReset = new EventEmitter<number>();
 
   ngOnInit() {
     this.resetTimer();
@@ -137,6 +138,7 @@ export class TimerComponent implements OnDestroy, OnInit {
     this.startTime = null;
     this.pointsReached = 0;
     this.userTime = '00:00:00';
+    this.pointsReset.emit(0);
   }
 
   updateTimer() {

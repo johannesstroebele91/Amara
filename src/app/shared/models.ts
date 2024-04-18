@@ -31,6 +31,7 @@ export interface AuthResponseData {
 export interface UserWithTasks {
   id: string;
   name: string;
+  points?: number;
   tasks: Task[]
 }
 
