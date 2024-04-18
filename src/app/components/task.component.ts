@@ -99,10 +99,10 @@ import {BehaviorSubject, Subscription} from "rxjs";
 })
 export class TaskComponent implements OnInit, OnDestroy {
   @Input() userWithTasks!: UserWithTasks;
+  @Output() pointsAddedByTaskCompletion = new EventEmitter<number>();
   taskForm = new FormGroup({
     newTask: new FormControl('')
   });
-  @Output() pointsAddedByTaskCompletion = new EventEmitter<number>();
 
   private userWithTasksSubject: BehaviorSubject<UserWithTasks>;
   private userWithTasksSubscription: Subscription | undefined;
@@ -128,11 +128,18 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   addTask() {
     const newTaskName = this.taskForm.value.newTask;
+    console.log('addTask')
+    console.log(this.taskForm.value)
     if (newTaskName) {
-      this.userWithTasks?.tasks?.unshift({name: newTaskName, checked: false, editing: false});
+      const newTask: Task = {name: newTaskName, checked: false, editing: false}
+      if (this.userWithTasks?.tasks?.length > 0) {
+        this.userWithTasks?.tasks?.unshift(newTask);
+      } else {
+        this.userWithTasks = {...this.userWithTasks, tasks: [newTask]}
+      }
       this.updateUserWithTasks();
-      this.taskForm.reset();
     }
+    this.taskForm.reset();
   }
 
   markTaskAsCompleted(task: Task, event: MatCheckboxChange) {
@@ -148,6 +155,7 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   editTask(task: Task) {
     task.editing = true;
+    this.updateUserWithTasks();
   }
 
   saveTask(task: Task) {
@@ -157,6 +165,7 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   cancelEdit(task: Task) {
     task.editing = false;
+    this.updateUserWithTasks();
   }
 
   updateUserWithTasks() {
