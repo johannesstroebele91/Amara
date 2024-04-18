@@ -30,18 +30,18 @@ import {BehaviorSubject, Subscription} from "rxjs";
       padding: 10px 0 !important;
     }`],
   template: `
-    <mat-card style="max-width: 700px; min-width: 600px; min-height: 575px;">
+    <mat-card style="max-width: 700px; min-width: 400px; min-height: 575px;">
       <mat-card-header style="margin: 0 auto">
         <mat-card-title style="font-size: 30px; margin-top: 20px;">My Tasks</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content>
+      <mat-card-content style="width: 100%">
         <form [formGroup]="taskForm">
           <button (click)="addTask()" mat-mini-fab color="primary" aria-label="Add a task"
                   style="margin: 30px 10px 0 17px">
             <mat-icon>add</mat-icon>
           </button>
-          <mat-form-field appearance="fill" style="width: 75%">
+          <mat-form-field appearance="fill" style="width: 70%; margin-left: 10px">
             <input matInput formControlName="newTask" placeholder="Enter new task">
           </mat-form-field>
         </form>
