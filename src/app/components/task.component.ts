@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {NgForOf, NgIf} from "@angular/common";
@@ -30,15 +30,15 @@ import {BehaviorSubject, Subscription} from "rxjs";
       padding: 10px 0 !important;
     }`],
   template: `
-    <mat-card style="max-width: 700px; min-height: 460px;">
+    <mat-card style="max-width: 700px; min-width: 600px; min-height: 575px;">
       <mat-card-header style="margin: 0 auto">
-        <mat-card-title style="font-size: 40px; margin-top: 30px;">My Tasks</mat-card-title>
+        <mat-card-title style="font-size: 30px; margin-top: 20px;">My Tasks</mat-card-title>
       </mat-card-header>
 
-      <mat-card-content style="min-width: 500px;">
+      <mat-card-content>
         <form [formGroup]="taskForm">
           <button (click)="addTask()" mat-mini-fab color="primary" aria-label="Add a task"
-                  style="margin: 40px 10px 0 17px">
+                  style="margin: 30px 10px 0 17px">
             <mat-icon>add</mat-icon>
           </button>
           <mat-form-field appearance="fill" style="width: 75%">
@@ -48,13 +48,12 @@ import {BehaviorSubject, Subscription} from "rxjs";
 
         <mat-list *ngFor="let task of userWithTasks?.tasks">
           <mat-list-item *ngIf="!task.editing">
-            <mat-checkbox [ngModel]="task.checked" (change)="toggleChecked(task, $event)">
+            <mat-checkbox [ngModel]="task.checked" (change)="markTaskAsCompleted(task, $event)">
             </mat-checkbox>
             <mat-label style="margin-left: 8px">{{ task.name }}</mat-label>
             <button mat-icon-button (click)="editTask(task)">
               <mat-icon>edit</mat-icon>
             </button>
-
           </mat-list-item>
 
           <mat-list-item *ngIf="task.editing">
@@ -103,6 +102,7 @@ export class TaskComponent implements OnInit, OnDestroy {
   taskForm = new FormGroup({
     newTask: new FormControl('')
   });
+  @Output() pointsAddedByTaskCompletion = new EventEmitter<number>();
 
   private userWithTasksSubject: BehaviorSubject<UserWithTasks>;
   private userWithTasksSubscription: Subscription | undefined;
@@ -135,12 +135,13 @@ export class TaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleChecked(task: Task, event: MatCheckboxChange) {
+  markTaskAsCompleted(task: Task, event: MatCheckboxChange) {
     if (event.checked) {
       const index = this.userWithTasks.tasks.indexOf(task);
       if (index > -1) {
         this.userWithTasks.tasks.splice(index, 1);
         this.updateUserWithTasks();
+        this.pointsAddedByTaskCompletion.emit(50)
       }
     }
   }

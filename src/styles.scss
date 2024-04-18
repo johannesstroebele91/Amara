@@ -14,7 +14,7 @@ body {
 
 $custom-primary: mat.define-palette(mat.$deep-orange-palette, 500);
 $custom-accent: mat.define-palette(mat.$yellow-palette, 500);
-$custom-warn: mat.define-palette(mat.$red-palette, 500);
+$custom-warn: mat.define-palette(mat.$purple-palette, 500);
 
 $custom-theme: mat.define-light-theme((
   color: (

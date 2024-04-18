@@ -34,14 +34,16 @@ import {UsersTasksService} from "../services/users-tasks.service";
   ],
   template: `
     <div
-      style="display: flex; justify-content: space-around; flex-wrap: wrap">
-      <app-timer></app-timer>
-      <app-task [userWithTasks]="userWithTasks"></app-task>
+      style="display: flex; justify-content: space-evenly; flex-wrap: wrap">
+      <app-timer [pointsReached]="points"></app-timer>
+      <app-task [userWithTasks]="userWithTasks"
+                (pointsAddedByTaskCompletion)="onPointsAddedByTaskCompletion($event)"></app-task>
     </div>
   `,
 })
 export class HomeComponent implements OnInit {
   userWithTasks!: UserWithTasks;
+  points: number = 0;
 
   constructor(private route: ActivatedRoute, private usersTasksService: UsersTasksService) {
   }
@@ -56,5 +58,9 @@ export class HomeComponent implements OnInit {
         console.error('Error on getting user:', error);
       }
     })
+  }
+
+  onPointsAddedByTaskCompletion(pointsToAdd: number) {
+    this.points += pointsToAdd;
   }
 }

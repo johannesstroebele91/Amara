@@ -25,7 +25,7 @@ import {AuthService} from "./services/auth.service";
            style="color: white; text-decoration: none; font-size: 16px">Logout</a>
       </mat-toolbar-row>
     </mat-toolbar>
-    <div style=" margin: 60px auto;">
+    <div style=" margin: 30px auto;">
       <router-outlet></router-outlet>
     </div>
   `,

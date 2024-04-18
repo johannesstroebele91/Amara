@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {
@@ -34,50 +34,60 @@ dayjs.extend(duration);
   ],
   styleUrl: 'timer.component.scss',
   template: `
-    <mat-card style="width: 480px; margin-bottom: 30px; min-height: 330px;">
-      <mat-card-header style="margin: 0 auto">
-        <mat-card-title style="font-size: 40px; margin-top: 30px;">Timer</mat-card-title>
-      </mat-card-header>
-      <mat-card-content style="text-align: center; ">
-        <ng-container *ngIf="!isTimerRunning; else runningTimer">
-          <input [(ngModel)]="userTime"
-                 class="timer-style"
-                 placeholder="HH:mm:ss">
-        </ng-container>
-        <ng-template #runningTimer>
-          <p class="timer-style">{{ timer }}</p>
-        </ng-template>
+    <div style="width: 400px;">
+      <mat-card style=" margin-bottom: 30px;">
+        <mat-card-header style="margin: 0 auto">
+          <mat-card-title style="font-size: 30px; margin-top: 20px;">Earned Points</mat-card-title>
+        </mat-card-header>
         <ng-container>
-          <p style="margin: 0; font-weight: 500; color: #2ecc71">EARNED POINTS: {{ points }}</p>
-          <p style="color: #5d5d5d">Can be earned for each minute worked</p>
+          <p class="timer-style" style="color: #22b361">{{ pointsReached }}</p>
         </ng-container>
-      </mat-card-content>
-      <mat-card-footer style="margin: 30px auto;">
-        <mat-card-actions>
-          <button (click)="startTimer()" [disabled]="isTimerRunning" mat-raised-button color="primary"
-                  style="margin-right: 12px">START
-          </button>
-          <button (click)="pauseTimer()" [disabled]="!isTimerRunning" mat-raised-button color="accent"
-                  style="margin-right: 12px">PAUSE
-          </button>
-          <button (click)="resetTimer()" mat-raised-button color="warn">RESET</button>
-        </mat-card-actions>
-      </mat-card-footer>
-    </mat-card>`
+        <mat-card-footer>
+          <p style="color: #5d5d5d; text-align: center; padding-bottom: 20px">Can be earned for each minute worked<br>and
+            task completed.</p>
+        </mat-card-footer>
+      </mat-card>
+
+      <mat-card style=" margin-bottom: 20px;">
+        <mat-card-header style="margin: 0 auto">
+          <mat-card-title style="font-size: 30px; margin-top: 30px;">Timer</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="text-align: center; ">
+          <ng-container *ngIf="!isTimerRunning; else runningTimer">
+            <input [(ngModel)]="userTime"
+                   class="timer-style"
+                   placeholder="HH:mm:ss">
+          </ng-container>
+          <ng-template #runningTimer>
+            <p class="timer-style">{{ timer }}</p>
+          </ng-template>
+        </mat-card-content>
+        <mat-card-footer style="margin: 10px auto 30px auto;">
+          <mat-card-actions>
+            <button (click)="startTimer()" [disabled]="isTimerRunning" mat-raised-button color="primary"
+                    style="margin-right: 12px">START
+            </button>
+            <button (click)="pauseTimer()" [disabled]="!isTimerRunning" mat-raised-button color="accent"
+                    style="margin-right: 12px">PAUSE
+            </button>
+            <button (click)="resetTimer()" mat-raised-button color="warn">RESET</button>
+          </mat-card-actions>
+        </mat-card-footer>
+      </mat-card>
+    </div>`
 })
 export class TimerComponent implements OnDestroy, OnInit {
   timer: string = '00:00:00';
   isTimerRunning: boolean = false;
   timerSubscription: Subscription | undefined;
   startTime: dayjs.Dayjs | null = null;
-  points: number = 0;
   userTime: string = '00:00:00';
+  @Input() pointsReached!: number;
 
   ngOnInit() {
     this.resetTimer();
   }
 
-  // Helper function to validate the time format
   isValidTimeFormat(time: string): boolean {
     const regex = /^([0-1]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$/;
     return regex.test(time);
@@ -125,7 +135,7 @@ export class TimerComponent implements OnDestroy, OnInit {
     this.isTimerRunning = false;
     this.timer = '00:00:00';
     this.startTime = null;
-    this.points = 0;
+    this.pointsReached = 0;
     this.userTime = '00:00:00';
   }
 
@@ -140,7 +150,7 @@ export class TimerComponent implements OnDestroy, OnInit {
       this.timer = `${hours}:${minutes}:${seconds}`;
 
       if (durationObj.seconds() === 0 && durationObj.minutes() > 0) {
-        this.points += 1;
+        this.pointsReached += 1;
       }
     }
   }
