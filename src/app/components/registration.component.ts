@@ -213,6 +213,8 @@ export class RegistrationComponent {
           next: (response: AuthResponseData) => {
             this.usersTasksService.createUserWithDefaultTasks(response.localId, name).subscribe({
               next: () => {
+                this.router.navigate([`/home/${response.localId}`]);
+                this.isLoading = false;
                 console.log("Create a user on FireBase was successful")
               },
               error: (error) => {
@@ -220,8 +222,6 @@ export class RegistrationComponent {
                 console.error('Error on sign in:', error);
               }
             })
-            this.router.navigate([`/home/${response.localId}`]);
-            this.isLoading = false;
           }
         })
     }
