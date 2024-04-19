@@ -17,57 +17,46 @@ import {BehaviorSubject, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-task',
-  styles: [`
-    ::ng-deep .mat-mdc-text-field-wrapper {
-      max-height: 40px;
-    }
-
-    ::ng-deep .mat-mdc-form-field {
-      max-height: 80px;
-    }
-
-    ::ng-deep .mat-mdc-form-field-infix {
-      padding: 10px 0 !important;
-    }`],
   template: `
     <mat-card style="max-width: 700px; min-width: 400px; min-height: 575px;">
-      <mat-card-header style="margin: 0 auto">
+      <mat-card-header style="margin: 0 auto 20px auto">
         <mat-card-title style="font-size: 30px; margin-top: 20px;">My Tasks</mat-card-title>
       </mat-card-header>
 
       <mat-card-content style="width: 100%">
         <form [formGroup]="taskForm">
-          <button (click)="addTask()" mat-mini-fab color="primary" aria-label="Add a task"
-                  style="margin: 30px 10px 0 17px">
-            <mat-icon>add</mat-icon>
-          </button>
-          <mat-form-field appearance="fill" style="width: 70%; margin-left: 10px">
+          <div style="margin: 0 20px; display: inline-block;">
+            <button (click)="addTask()" mat-mini-fab color="primary" aria-label="Add a task">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <mat-form-field style="width: 70%;">
             <input matInput formControlName="newTask" placeholder="Enter new task">
           </mat-form-field>
         </form>
 
         <mat-list *ngFor="let task of userWithTasks?.tasks">
-          <mat-list-item *ngIf="!task.editing">
-            <mat-checkbox [ngModel]="task.checked" (change)="markTaskAsCompleted(task, $event)">
+          <div *ngIf="!task.editing" style="display: flex; align-items: center;">
+            <mat-checkbox [ngModel]="task.checked" (change)="markTaskAsCompleted(task, $event)"
+                          style="margin-left: 20px">
             </mat-checkbox>
-            <mat-label style="margin-left: 8px">{{ task.name }}</mat-label>
-            <button mat-icon-button (click)="editTask(task)">
+            <mat-label style="margin-left: 20px; width: 60%">{{ task.name }}</mat-label>
+            <button mat-icon-button (click)="editTask(task)" style="margin-left: 5px" aria-label="Edit task">
               <mat-icon>edit</mat-icon>
             </button>
-          </mat-list-item>
+          </div>
 
-          <mat-list-item *ngIf="task.editing">
-            <mat-form-field appearance="fill" style="width: 100%">
-              <input matInput [(ngModel)]="task.name" placeholder="Edit task" (keyup.enter)="saveTask(task)"
+          <div *ngIf="task.editing">
+            <div style="margin: 0 20px; display: inline-block;">
+              <button (click)="saveTask(task)" mat-mini-fab color="primary" aria-label="save task">
+                <mat-icon>save</mat-icon>
+              </button>
+            </div>
+            <mat-form-field style="width: 70%">
+              <input matInput [(ngModel)]="task.name" placeholder="Save task" (keyup.enter)="saveTask(task)"
               >
             </mat-form-field>
-            <button mat-icon-button color="primary" (click)="saveTask(task)">
-              <mat-icon>save</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="cancelEdit(task)">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-list-item>
+          </div>
         </mat-list>
       </mat-card-content>
     </mat-card>
@@ -159,11 +148,6 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
 
   saveTask(task: Task) {
-    task.editing = false;
-    this.updateUserWithTasks();
-  }
-
-  cancelEdit(task: Task) {
     task.editing = false;
     this.updateUserWithTasks();
   }
