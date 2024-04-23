@@ -117,8 +117,6 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   addTask() {
     const newTaskName = this.taskForm.value.newTask;
-    console.log('addTask')
-    console.log(this.taskForm.value)
     if (newTaskName) {
       const newTask: Task = {name: newTaskName, checked: false, editing: false}
       if (this.userWithTasks?.tasks?.length > 0) {

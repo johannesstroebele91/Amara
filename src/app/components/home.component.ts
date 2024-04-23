@@ -35,7 +35,8 @@ import {UsersTasksService} from "../services/users-tasks.service";
   template: `
     <div
       style="display: flex; justify-content: space-evenly; flex-wrap: wrap">
-      <app-timer [pointsReached]="points" (pointsReset)="onPointsReset($event)"></app-timer>
+      <app-timer [pointsReached]="points" (pointsReset)="onPointsReset($event)"
+                 (pointsAddedByWorkedTime)="onPointsAddedByWorkedTime($event)"></app-timer>
       <app-task [userWithTasks]="userWithTasks"
                 (pointsAddedByTaskCompletion)="onPointsAddedByTaskCompletion($event)"></app-task>
     </div>
@@ -64,7 +65,12 @@ export class HomeComponent implements OnInit {
     this.points += pointsToAdd;
   }
 
+  onPointsAddedByWorkedTime(pointsToAdd: number) {
+    this.points += pointsToAdd;
+  }
+
   onPointsReset(pointsReset: number) {
     this.points = pointsReset;
   }
+
 }

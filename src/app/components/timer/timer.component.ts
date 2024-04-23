@@ -54,9 +54,8 @@ dayjs.extend(duration);
         </mat-card-header>
         <mat-card-content style="text-align: center; ">
           <ng-container *ngIf="!isTimerRunning; else runningTimer">
-            <input [(ngModel)]="userTime"
-                   class="timer-style"
-                   placeholder="HH:mm:ss">
+            <p
+              class="timer-style">{{ userTime }}</p>
           </ng-container>
           <ng-template #runningTimer>
             <p class="timer-style">{{ timer }}</p>
@@ -84,18 +83,14 @@ export class TimerComponent implements OnDestroy, OnInit {
   userTime: string = '00:00:00';
   @Input() pointsReached!: number;
   @Output() pointsReset = new EventEmitter<number>();
+  @Output() pointsAddedByWorkedTime = new EventEmitter<number>();
 
   ngOnInit() {
     this.resetTimer();
   }
 
-  isValidTimeFormat(time: string): boolean {
-    const regex = /^([0-1]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$/;
-    return regex.test(time);
-  }
-
   startTimer() {
-    if (!this.isTimerRunning && this.isValidTimeFormat(this.userTime)) {
+    if (!this.isTimerRunning) {
       this.isTimerRunning = true;
       const timeParts = this.userTime.split(':').map(part => parseInt(part, 10));
       const elapsedTime = dayjs.duration({
@@ -107,12 +102,6 @@ export class TimerComponent implements OnDestroy, OnInit {
       this.timerSubscription = interval(1000).subscribe(() => {
         this.updateTimer();
       });
-    } else if (!this.isValidTimeFormat(this.userTime)) {
-      // Handle invalid time format
-      console.error('Invalid time format. Please enter time in HH:mm:ss format.');
-      // Optionally, reset the userTime to a valid format
-      this.userTime = '00:00:00';
-      this.startTimer()
     }
   }
 
@@ -152,7 +141,7 @@ export class TimerComponent implements OnDestroy, OnInit {
       this.timer = `${hours}:${minutes}:${seconds}`;
 
       if (durationObj.seconds() === 0 && durationObj.minutes() > 0) {
-        this.pointsReached += 1;
+        this.pointsAddedByWorkedTime.emit(1)
       }
     }
   }
