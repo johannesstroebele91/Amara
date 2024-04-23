@@ -21,15 +21,13 @@ import {AuthResponseData} from "../shared/models";
     >
       <mat-card-header style="display: block;">
         <mat-card-title style=" font-size: 36px">Welcome!</mat-card-title>
-        <mat-card-subtitle style="margin: 30px auto 10px auto; font-size: 24px;"
-        >Our productivity app help you to:
+        <mat-card-subtitle style="margin: 30px auto 30px auto; line-height: 1.85"
+        >Amara is a task manager that helps you to track your task and stay focused during your work. Stay motivated by
+          earning
+          points via completing tasks and working with a timer.
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <ul style="margin-bottom: 30px; text-align: left">
-          <li>complete your tasks</li>
-          <li>stay focused during your work</li>
-        </ul>
         <form (ngSubmit)="onSubmit()">
           <div [formGroup]="loginForm">
             <mat-form-field style="display: block">
