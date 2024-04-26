@@ -1,12 +1,12 @@
-# amara: Pomodoro Productivity Tracker
+# Amara: Task Manager
 
-amara is a cloud-based application designed to boost your productivity using the Pomodoro Technique. It allows you to set focused 25-minute work intervals, helping you achieve more throughout your day. This project utilizes TypeScript, Angular, Angular Material, Firebase Authentication, and Vercel for a smooth, performant, and cross-platform user experience.
+Amara is your ultimate task management solution designed to enhance your productivity and maintain focus throughout your workday. With Amara, you can effortlessly track your tasks, stay organized, and boost motivation by earning points through task completion and efficient time management with a built-in timer. Built with TypeScript, Angular, Angular Material, Firebase Authentication, and Vercel, Amara offers a streamlined, feature-rich, and user-friendly experience.
 
 # Features
 
-- 25-Minute Pomodoro Timer: Set and track your work intervals with a clean and intuitive interface.
-- Start/Stop and Reset Buttons: Easily control your timer and start fresh whenever needed.
-- Login and Registration: Securely register and log in using your email and password.
+- Task Tracking: Easily manage and prioritize your tasks with intuitive tools for creating, organizing, and monitoring your to-do list.
+- Focus Timer: Enhance productivity and maintain concentration with a customizable timer for focused work sessions, ensuring optimal performance.
+- Point System: Stay motivated and engaged by earning points for completing tasks and achieving milestones, providing a tangible measure of progress and accomplishment.
 
 # Technology
 
