@@ -1,6 +1,6 @@
 {
   "name": "amara",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "start": "ng serve",
     "build": "ng build",
@@ -19,22 +19,22 @@
     "@angular/platform-browser": "^17.3.8",
     "@angular/platform-browser-dynamic": "^17.3.8",
     "@angular/router": "^17.3.8",
-    "dayjs": "^1.11.10",
-    "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "dayjs": "^1.11.11",
+    "rxjs": "~7.8.1",
+    "tslib": "^2.6.2",
+    "zone.js": "^0.14.5"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.7",
     "@angular/cli": "^17.3.7",
     "@angular/compiler-cli": "^17.3.8",
-    "@types/jasmine": "~5.1.0",
-    "jasmine-core": "~5.1.0",
-    "karma": "~6.4.0",
+    "@types/jasmine": "~5.1.4",
+    "jasmine-core": "~5.1.2",
+    "karma": "~6.4.3",
     "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
+    "karma-coverage": "~2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.3.2"
+    "typescript": "~5.4.5"
   }
 }
